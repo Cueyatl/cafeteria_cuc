@@ -1,3 +1,4 @@
+import 'package:cafeteria_cuc/demo/populate_db.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:cafeteria_cuc/models/product_model.dart';
@@ -26,6 +27,8 @@ class DatabaseHelper {
       onConfigure: (db) async {
         await db.execute('PRAGMA foreign_keys = ON');
       },
+      //DEMO: 
+      
       onCreate: _createDB,
 
     );
@@ -59,38 +62,50 @@ class DatabaseHelper {
       FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE CASCADE
     )
   ''');
+
+  await seedProducts(db);
 }
 
 
   // Create a product
   Future<int> createProduct(Product product) async {
     final db = await instance.database;
-    return await db.insert('products', product.toMap());
+
+    return await db.rawInsert(
+    'INSERT INTO products (name, price) VALUES (?, ?)',
+    [product.name, product.price],
+  );
   }
   // Read product
   Future<List<Product>> readProducts() async {
     final db = await instance.database;
-    final result = await db.query('products');
+    final result = await db.rawQuery('SELECT * FROM products');
     return result.map((map) => Product.fromMap(map)).toList();
   }
   // Update product
   Future<int> updateProducts(Product product) async {
     final db = await instance.database;
-    return await db.update(
-      'products',
-      product.toMap(),
-      where: 'product_id = ?',
-      whereArgs: [product.id],
+    return await db.rawUpdate(
+    'UPDATE products SET name = ?, price = ? WHERE product_id = ?',
+    [product.name, product.price, product.id],
+    );
+  }
+
+  //Logic delete product. REQUIRES MODIFICATION IN PRODUCT MODEL (ADD is_active Column)
+  Future<int> logicDeleteProduct(Product product) async{
+    final db = await instance.database;
+    return await db.rawUpdate(
+    'UPDATE products SET is_active = ? WHERE product_id ?',
+      //[product.is_active,product.id]
     );
   }
   // Delete product
   Future<int> deleteProducts(int productId) async {
     final db = await instance.database;
-    return await db.delete(
-      'products',
-      where: 'product_id = ?',
-      whereArgs: [productId],
-    );
+    return await db.rawDelete(
+    'DELETE FROM products WHERE product_id = ?',
+    [productId],
+  );
   }
 
 

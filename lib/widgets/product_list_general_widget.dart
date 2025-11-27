@@ -5,7 +5,7 @@ class ReusableProductList extends StatelessWidget {
   final Future<List<Product>> productList;
   final Widget Function(Product) rowContentBuilder;
   
-
+//TODO: Refactor for making it a reusable list for products, sales and customers, modify params for texts and styles.
   const ReusableProductList({
     super.key,
     required this.productList,

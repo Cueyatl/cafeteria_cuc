@@ -2,7 +2,10 @@
 gantt.gantt
 #Code diagram
 codeDiagram.codediagram
-
+#DELA
+TodosAndNotes.md
+#demo for local use
+lib/demo
 # Miscellaneous
 *.class
 *.log

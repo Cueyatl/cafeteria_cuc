@@ -36,20 +36,33 @@ class ProductListPageState extends State<ProductListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Mis productos')),
+      appBar: AppBar(
+        title: const Text('Mis productos'),
+        //Override automatic arrow
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // Pointing to main
+            Navigator.pushReplacementNamed(context, '/');
+          },
+        ),
+      ),
 
       body: ReusableProductList(
         productList: _productList,
         rowContentBuilder: (product) {
           return Row(
             children: [
+              //TRASHCAN ICON DELETES PRODUCT ITEM IN ROW
               IconButton(
                 icon: const Icon(Icons.delete, color: Colors.red),
                 onPressed: () => _deleteProduct(product.id!),
               ),
+              //EDIT TEXT WITH ICON OPENS TAB TO MODIFY PRODUCT.
               TextButton.icon(
                 icon: const Icon(Icons.edit, color: Colors.blue),
                 label: const Text('Editar'),
+                //ROUTE TO OPEN BUTTON.
                 onPressed: () async {
                   final result = await Navigator.push(
                     context,
@@ -57,8 +70,12 @@ class ProductListPageState extends State<ProductListPage> {
                       builder: (context) => ProductEditPage(product: product),
                     ),
                   );
+                  //TODO: requires an else clause.
                   if (result == 'updated') {
                     _refreshList();
+                  }
+                  else{
+                    Text("no data, :/");
                   }
                 },
               ),
@@ -66,7 +83,7 @@ class ProductListPageState extends State<ProductListPage> {
           );
         },
       ),
-
+      //ADD PRODUCT BUTTON
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.push(
