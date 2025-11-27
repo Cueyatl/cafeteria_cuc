@@ -1,0 +1,23 @@
+CREATE TABLE Productos (
+    id_producto INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    precio DECIMAL(10,2) NOT NULL,
+    categoria TEXT
+);
+
+CREATE TABLE Ventas (
+    id_venta INTEGER PRIMARY KEY AUTOINCREMENT,
+    fecha DATE NOT NULL,
+    hora TIME NOT NULL,
+    total DECIMAL(10,2) NOT NULL
+);
+
+CREATE TABLE DetalleVentas (
+    id_detalle INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_venta INTEGER NOT NULL,
+    id_producto INTEGER NOT NULL,
+    cantidad INTEGER NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_venta) REFERENCES Ventas(id_venta),
+    FOREIGN KEY (id_producto) REFERENCES Productos(id_producto)
+);
