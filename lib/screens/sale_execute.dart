@@ -50,6 +50,16 @@ double get totalPrice {
   return total;
 }
 
+String get customerChange {
+    if (_productListData.isEmpty) return '0'.toString();
+    double change = 0;
+    double receivedMoney = 200;
+    change =  receivedMoney - totalPrice;
+    if(totalPrice>receivedMoney){
+      return 'Cantidad Insuficiente';
+    }
+    return 'Cambio: \$${change.toStringAsFixed(2)}';
+  }
   
 
   List<Product> _productListData = [];
@@ -95,6 +105,8 @@ Future<void> _registerSale() async {
 
       // Insert into sales_detail
       await DatabaseHelper.instance.createSalesDetail(salesDetail);
+       if (!mounted) return;
+      Navigator.pushNamed(context, '/product_list');
     }
   }
 
@@ -108,6 +120,7 @@ Future<void> _registerSale() async {
   );
   
   print("✅ Sale $saleId , $_quantities registered successfully");
+  
 }
 
 
@@ -137,6 +150,8 @@ Future<void> _registerSale() async {
           },
         ),
       ),
+
+
       bottomNavigationBar: BottomCard(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -144,6 +159,16 @@ Future<void> _registerSale() async {
             Text(
               'Total: \$${totalPrice.toStringAsFixed(2)}',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            Text('Recibido', 
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+            Text(
+              customerChange,
+              style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: customerChange == 'Cantidad Insuficiente' ? Colors.red : Colors.black,
+  ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -155,8 +180,7 @@ Future<void> _registerSale() async {
       await _registerSale();
 
       // Navigate back to home or main page
-     
-  Navigator.pop(context, true); // true = sale was registered
+      Navigator.pushNamed(context, '/sale_commit');
 }
 
     

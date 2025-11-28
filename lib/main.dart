@@ -1,4 +1,5 @@
 import 'package:cafeteria_cuc/screens/product_add.dart';
+import 'package:cafeteria_cuc/screens/sale_commit.dart';
 import 'package:flutter/material.dart';
 import 'package:cafeteria_cuc/screens/product_list.dart';
 import 'package:cafeteria_cuc/widgets/bottom_card_widget.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/product_add': (context) => AddProductPage(),
         '/product_list': (context) => ProductListPage(),
         '/product_sale': (context) => ProductSale(),
+        '/sale_commit': (context)=>SaleCommit()
       },
     );
   }

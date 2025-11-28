@@ -21,9 +21,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: widget.product.name);
-    _priceController = TextEditingController(
-      text: widget.product.price.toString(),
-    );
+    _priceController = TextEditingController(text: widget.product.price.toString(),);
   }
 
   void _updateProduct() async {
@@ -37,8 +35,8 @@ class _ProductEditPageState extends State<ProductEditPage> {
       await DatabaseHelper.instance.updateProducts(updatedProduct);
 
       if (!mounted) return;
-      //Update the context so it refreshes the list.
-      Navigator.pop(context, 'updated'); // Go back to the product list
+      //Updates the context so it refreshes the list.
+      Navigator.pop(context, 'updated'); // Go back to an UPDATED the product list.
     }
   }
 

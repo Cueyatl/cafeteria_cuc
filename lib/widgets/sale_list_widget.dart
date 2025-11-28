@@ -43,7 +43,7 @@ class _SalesListWidgetState extends State<SalesListWidget> {
             }
 
             final sales = snapshot.data!;
-            print("HELP HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+       
             print(snapshot.data);
 
             return ListView.builder(
