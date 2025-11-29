@@ -45,20 +45,20 @@ class DatabaseHelper {
   
   await db.execute('''
     CREATE TABLE sales (
-      sale_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
       date TEXT NOT NULL,
       time TEXT NOT NULL
     )
   ''');
 
   await db.execute('''
-    CREATE TABLE salesDetail (
+    CREATE TABLE sales_detail (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       sale_id INTEGER NOT NULL,
       product_id INTEGER NOT NULL,
       quantity INTEGER NOT NULL,
       total REAL NOT NULL,
-      FOREIGN KEY (sale_id) REFERENCES sales (sale_id) ON DELETE CASCADE,
+      FOREIGN KEY (sale_id) REFERENCES sales (id) ON DELETE CASCADE,
       FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE CASCADE
     )
   ''');
@@ -132,17 +132,17 @@ Future<int> updateSale(Sales sale) async {
     'sales',
     sale.toMap(),
     where: 'sale_id = ?',
-    whereArgs: [sale.saleId],
+    whereArgs: [sale.id],
   );
 }
 
 // Delete sale
-Future<int> deleteSale(int saleId) async {
+Future<int> deleteSale(int id) async {
   final db = await instance.database;
   return await db.delete(
     'sales',
     where: 'sale_id = ?',
-    whereArgs: [saleId],
+    whereArgs: [id],
   );
 }
 
@@ -150,23 +150,23 @@ Future<int> deleteSale(int saleId) async {
 // Create
 Future<int> createSalesDetail(SalesDetail detail) async {
   final db = await instance.database;
-  return await db.insert('salesDetail', detail.toMap());
+  return await db.insert('sales_detail', detail.toMap());
 }
 
 // Read all
 Future<List<SalesDetail>> readAllSalesDetail() async {
   final db = await instance.database;
-  final result = await db.query('salesDetail');
+  final result = await db.query('sales_detail');
   return result.map((map) => SalesDetail.fromMap(map)).toList();
 }
 
 // Read by sale_id
-Future<List<SalesDetail>> readDetailsBySaleId(int saleId) async {
+Future<List<SalesDetail>> readDetailsBySaleId(int id) async {
   final db = await instance.database;
   final result = await db.query(
-    'salesDetail',
+    'sales_detail',
     where: 'sale_id = ?',
-    whereArgs: [saleId],
+    whereArgs: [id],
   );
   return result.map((map) => SalesDetail.fromMap(map)).toList();
 }
@@ -175,7 +175,7 @@ Future<List<SalesDetail>> readDetailsBySaleId(int saleId) async {
 Future<int> updateSalesDetail(SalesDetail detail) async {
   final db = await instance.database;
   return await db.update(
-    'salesDetail',
+    'sales_detail',
     detail.toMap(),
     where: 'id = ?',
     whereArgs: [detail.id],
@@ -186,7 +186,7 @@ Future<int> updateSalesDetail(SalesDetail detail) async {
 Future<int> deleteSalesDetail(int id) async {
   final db = await instance.database;
   return await db.delete(
-    'salesDetail',
+    'sales_detail',
     where: 'id = ?',
     whereArgs: [id],
   );
@@ -202,17 +202,17 @@ Future<List<Map<String, dynamic>>> readSales() async {
   final result = await db.rawQuery('''
     SELECT 
       sd.id AS sale_detail_id,
-      s.sale_id AS sale_id,
+      s.id AS sale_id,
       s.date AS date,
       s.time AS time,
       p.name AS item_name,
       sd.quantity AS quantity,
       p.price AS price,
       sd.total AS total
-    FROM salesDetail sd
-    JOIN sales s ON sd.sale_id = s.sale_id
+    FROM sales_detail sd
+    JOIN sales s ON sd.sale_id = s.id
     JOIN products p ON sd.product_id = p.product_id
-    ORDER BY s.sale_id DESC, sd.id ASC
+    ORDER BY s.id DESC, sd.id ASC
   ''');
 
   return result;

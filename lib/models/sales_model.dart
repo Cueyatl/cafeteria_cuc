@@ -1,13 +1,13 @@
 class Sales {
-  final int? saleId;
+  final int? id;
   final String date;
   final String time;
 
-  Sales({this.saleId, required this.date, required this.time});
+  Sales({this.id, required this.date, required this.time});
 
   Map<String, dynamic> toMap(){
     return {
-      'sale_id': saleId,
+      'id': id,
       'date': date,
       'time': time,
     };
@@ -16,7 +16,7 @@ class Sales {
     // Convert Map → Sales (from DB)
   factory Sales.fromMap(Map<String, dynamic> map) {
     return Sales(
-      saleId: map['sale_id'],
+      id: map['id'],
       date: map['date'],
       time: map['time'],
     );

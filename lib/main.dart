@@ -1,10 +1,10 @@
 import 'package:cafeteria_cuc/screens/product_add.dart';
-import 'package:cafeteria_cuc/screens/sale_commit.dart';
+import 'package:cafeteria_cuc/screens/sales_confirm.dart';
 import 'package:flutter/material.dart';
 import 'package:cafeteria_cuc/screens/product_list.dart';
 import 'package:cafeteria_cuc/widgets/bottom_card_widget.dart';
 import 'package:cafeteria_cuc/widgets/circular_button_widget.dart';
-import 'package:cafeteria_cuc/screens/sale_execute.dart';
+import 'package:cafeteria_cuc/screens/sales_menu.dart';
 import 'package:cafeteria_cuc/widgets/sale_list_widget.dart';
 
 void main() {
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => MyHomePage(title: ''),
         '/product_add': (context) => AddProductPage(),
         '/product_list': (context) => ProductListPage(),
-        '/product_sale': (context) => ProductSale(),
+        '/sales_menu': (context) => ProductSale(),
         '/sale_commit': (context)=>SaleCommit()
       },
     );

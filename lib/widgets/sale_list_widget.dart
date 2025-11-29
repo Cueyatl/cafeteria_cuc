@@ -43,46 +43,50 @@ class _SalesListWidgetState extends State<SalesListWidget> {
             }
 
             final sales = snapshot.data!;
-       
+
             print(snapshot.data);
 
-            return ListView.builder(
-              itemCount: sales.length,
-              itemBuilder: (context, index) {
-                final sale = sales[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      'Venta #${sale['sale_id']} - ${sale['date']}',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+            return 
+            Expanded(
+              child: 
+              ListView.builder(
+                itemCount: sales.length,
+                itemBuilder: (context, index) {
+                  final sale = sales[index];
+                  return Card(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
                     ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Hora: ${sale['time']}'),
-                        Text('Producto: ${sale['item_name']}'),
-                        Text('Cantidad: ${sale['quantity']}'),
-                        Text('Precio unitario: \$${sale['price']}'),
-                      ],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    trailing: Text(
-                      '\$${sale['total'].toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    child: ListTile(
+                      title: Text(
+                        'Venta #${sale['sale_id']} - ${sale['date']}',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Hora: ${sale['time']}'),
+                          Text('Producto: ${sale['item_name']}'),
+                          Text('Cantidad: ${sale['quantity']}'),
+                          Text('Precio unitario: \$${sale['price']}'),
+                        ],
+                      ),
+                      trailing: Text(
+                        '\$${sale['total'].toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            );
+                  );
+                },
+              )
+           );
 
           default:
             return const SizedBox();

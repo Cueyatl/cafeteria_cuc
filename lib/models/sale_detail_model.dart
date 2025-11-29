@@ -33,5 +33,3 @@ class SalesDetail {
     );
   }
 }
-
-// 001, sales time, 
